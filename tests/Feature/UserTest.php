@@ -16,6 +16,7 @@ class UserTest extends TestCase
     public function test_register_user()
     {
         $response = $this->postJson('/api/v1/register',[
+
             'email'=>'tessd-user@test.com',
             'password'=>'Test1234',
             'password_confirmation'=>'Test1234'
@@ -54,5 +55,6 @@ class UserTest extends TestCase
         $response = $this->postJson('/api/v1/logout');
         $response->assertStatus(200);
         $response->decodeResponseJson()['status'];
-    }
+    }           
+      
 }
