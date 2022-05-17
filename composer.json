@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "bagel/swap",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Bagel-Swap / Trading / portefolio",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
