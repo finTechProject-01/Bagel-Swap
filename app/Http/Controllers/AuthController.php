@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -34,16 +35,30 @@ class AuthController extends JsonController
     /**
      * login endpoint the route is : api/v1/login
      * the request methode is POST
-     * @param Request $request
+     * @param LoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request): \Illuminate\Http\JsonResponse
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         $request->authenticate();
 
         $token = $request->user()->createToken('auth-token-bagel-swap');
         $response = ['token'=>$token->plainTextToken,'user'=> $request->user(),];
-        return $this->jsonSuccses('success',$response,true);
+        return $this->jsonSuccses('success login',$response,true);
+
+    }
+
+    /**
+     * login endpoint the route is : api/v1/logout
+     * the request methode is POST
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->user()->tokens()->delete();
+        $response = [];
+        return $this->jsonSuccses('success disconnects',$response,true);
 
     }
 

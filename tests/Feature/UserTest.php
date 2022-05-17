@@ -36,4 +36,23 @@ class UserTest extends TestCase
         $response->decodeResponseJson()['errors']['email'];
 
     }
+    public function test_login_user(){
+        $response = $this->postJson('/api/v1/login',[
+            'email'=>'tess-user@test.com',
+            'password'=>'Test1234',
+        ]);
+        $response->assertStatus(200);
+        $response->decodeResponseJson()['data']['token'];
+    }
+    public function test_logout_user(){
+        $response = $this->postJson('/api/v1/login',[
+            'email'=>'tess-user@test.com',
+            'password'=>'Test1234',
+        ]);
+        $response->assertStatus(200);
+        $response->decodeResponseJson()['data']['token'];
+        $response = $this->postJson('/api/v1/logout');
+        $response->assertStatus(200);
+        $response->decodeResponseJson()['status'];
+    }
 }
