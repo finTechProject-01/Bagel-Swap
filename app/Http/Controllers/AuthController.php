@@ -16,18 +16,18 @@ class AuthController extends JsonController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request): \Illuminate\Http\JsonResponse
+    public function register(Request $request)
     {
-        $schema = $request->validate([
+         $request->validate([
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
         $user = User::create([
-            'email' => $schema->email,
-            'password' => Hash::make($schema->password)
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
         ]);
        $token= $user->createToken('auth-token-bagel-swap');
        $response = ['token'=>$token->plainTextToken,'user'=>$user];
-       return $this->jsonSuccses('success',$response);
+      return $this->jsonSuccses('success',$response);
     }
 }

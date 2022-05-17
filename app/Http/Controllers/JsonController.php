@@ -17,10 +17,10 @@ class JsonController extends Controller
     {
         if (!$create){
             $response =['status'=>['message'=>$message ,'code'=>Response::HTTP_CREATED,'type'=>'success'],'data'=>$value];
-            return response($response,Response::HTTP_CREATED)->json();
+            return response()->json($response,Response::HTTP_CREATED);
         }
         $response =['status'=>['message'=>$message ,'code'=>Response::HTTP_OK,'type'=>'success'],'data'=>$value];
-        return response($response,Response::HTTP_OK)->json();
+        return response()->json($response,Response::HTTP_OK);
     }
 
     /**
@@ -34,9 +34,9 @@ class JsonController extends Controller
     {
         if (!$error){
             $response =['status'=>['message'=>$message ,'code'=>Response::HTTP_INTERNAL_SERVER_ERROR,'type'=>'error'],'data'=>$value];
-            return response($response,Response::HTTP_INTERNAL_SERVER_ERROR)->json();
+            return response()->json($response,Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         $response =['status'=>['message'=>$message ,'code'=>Response::HTTP_NOT_FOUND,'type'=>'error'],'data'=>$value];
-        return response($response,Response::HTTP_NOT_FOUND)->json();
+        return response()->json($response,Response::HTTP_NOT_FOUND);
     }
 }
