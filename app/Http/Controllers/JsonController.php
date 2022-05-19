@@ -39,4 +39,14 @@ class JsonController extends Controller
         $response =['status'=>['message'=>$message ,'code'=>Response::HTTP_NOT_FOUND,'type'=>'error'],'data'=>$value];
         return response()->json($response,Response::HTTP_NOT_FOUND);
     }
+    public function reg_number($id): string
+    {
+        $regNum = '';
+        $uniqueId = str_pad($id, 4, '0', STR_PAD_LEFT);
+        $date = date('y');
+        $regNum = "AH" . '\\' . $date . '\\' . $uniqueId;
+        return $regNum;
+    }
+
+
 }

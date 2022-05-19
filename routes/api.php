@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GlobalSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,9 @@ Route::prefix('v1')->group(function (){
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register',[AuthController::class,'register']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::get('settings',[GlobalSettingsController::class,'index']);
+        Route::post('settings',[GlobalSettingsController::class,'store']);
+    });
+
 });
