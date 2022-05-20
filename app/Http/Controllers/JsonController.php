@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Symfony\Component\HttpFoundation\Response;
 
 class JsonController extends Controller
@@ -27,17 +28,13 @@ class JsonController extends Controller
      * error
      * @param String $message
      * @param array $value
-     * @param bool $error
+     * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public function jsonError(String $message, Array $value, Bool $error): \Illuminate\Http\JsonResponse
+    public function jsonError(String $message, Array $value, Int $code): \Illuminate\Http\JsonResponse
     {
-        if (!$error){
-            $response =['status'=>['message'=>$message ,'code'=>Response::HTTP_INTERNAL_SERVER_ERROR,'type'=>'error'],'data'=>$value];
-            return response()->json($response,Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-        $response =['status'=>['message'=>$message ,'code'=>Response::HTTP_NOT_FOUND,'type'=>'error'],'data'=>$value];
-        return response()->json($response,Response::HTTP_NOT_FOUND);
+        $response =['status'=>['message'=>$message ,'code'=>$code,'type'=>'error'],'data'=>$value];
+        return response()->json($response,$code);
     }
     public function reg_number($id): string
     {
