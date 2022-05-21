@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'first_name',
+        'last_name',
+        'registration_number'
     ];
 
     /**
@@ -41,4 +45,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function globalSettings(): \Illuminate\Database\Eloquent\Relations\hasOne
+    {
+
+        return $this->hasOne(GlobalSettings::class);
+    }
 }
