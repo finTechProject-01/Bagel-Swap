@@ -57,8 +57,8 @@ class GlobalSettingsController extends JsonController
             $global_settings = new GlobalSettings(['total_invested'=>10000,'cost'=>0.3,'opening_date'=>Carbon::now()]);
             $user->globalSettings()->save($global_settings);
 
-            $response=['user'=>$user];
-            return $this->jsonSuccses('user settings',$response);
+            $response=['user'=>User::with('globalSettings')->findOrFail($id)];
+            return $this->jsonSuccses('user settings',$response,true);
 
         }
 
@@ -87,9 +87,21 @@ class GlobalSettingsController extends JsonController
             $loginId= Auth::id();
             if($loginId === intval($id)){
                 $user =User::find($id);
-                $user->name = $request->first_name .' '. $request->last_name;
-                $user->first_name = $request->first_name;
-                $user->last_name = $request->last_name;
+                if ($request->first_name){
+                    $user->name = $request->first_name .' '. $user->last_name;
+                    $user->first_name = $request->first_name;
+                }
+                if ($request->last_name){
+                    $user->name = $user->first_name .' '. $request->last_name;
+                    $user->last_name = $request->last_name;
+                }
+                if($request->first_name && $request->last_name){
+                    $user->name = $request->first_name .' '. $request->last_name;
+                    $user->first_name = $request->first_name;
+                    $user->last_name = $request->last_name;
+                }
+
+
                 $user->save();
 
                 $response =['user'=>User::with('globalSettings')->findOrFail($id)];
