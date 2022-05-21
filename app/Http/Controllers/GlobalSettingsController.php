@@ -39,6 +39,7 @@ class GlobalSettingsController extends JsonController
     {
 
         if(Auth::check()){
+
             $request->validate([
                 'first_name'=>'required',
                 'last_name'=>'required',
@@ -46,6 +47,7 @@ class GlobalSettingsController extends JsonController
 
             $id= Auth::id();
             $user =User::find($id);
+
             if(!is_null($user->name)){
                return $this->jsonError('You already have a profile ',[],Response::HTTP_ALREADY_REPORTED);
             }
@@ -56,10 +58,8 @@ class GlobalSettingsController extends JsonController
             $user->save();
             $global_settings = new GlobalSettings(['total_invested'=>10000,'cost'=>0.3,'opening_date'=>Carbon::now()]);
             $user->globalSettings()->save($global_settings);
-
             $response=['user'=>User::with('globalSettings')->findOrFail($id)];
-            return $this->jsonSuccses('user settings',$response,true);
-
+            return $this->jsonSuccses('user settings',$response);
         }
 
         return $this->jsonError('UNAUTHORIZED',[],Response::HTTP_UNAUTHORIZED);
@@ -78,7 +78,6 @@ class GlobalSettingsController extends JsonController
      */
     public function update(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        //return response()->json(['login'=>Auth::id(),'id'=>intval($id)]);
         if(Auth::check()){
             $request->validate([
                 'first_name',
